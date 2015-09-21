@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		83D197431BB00D4B0048869C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D197421BB00D4B0048869C /* Default-568h@2x.png */; };
 		B013331D1BADD1290038FECB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B013331C1BADD1290038FECB /* AppDelegate.swift */; };
 		B013331F1BADD1290038FECB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B013331E1BADD1290038FECB /* ViewController.swift */; };
 		B01333241BADD1290038FECB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B01333231BADD1290038FECB /* Images.xcassets */; };
 		B01333331BADD1290038FECB /* IPFreelyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01333321BADD1290038FECB /* IPFreelyTests.swift */; };
-		B013333D1BAEDFF80038FECB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B013333C1BAEDFF80038FECB /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -25,6 +25,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		83D197421BB00D4B0048869C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B01333171BADD1290038FECB /* IPFreely.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IPFreely.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B013331B1BADD1290038FECB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B013331C1BADD1290038FECB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -33,7 +34,6 @@
 		B013332C1BADD1290038FECB /* IPFreelyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IPFreelyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B01333311BADD1290038FECB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B01333321BADD1290038FECB /* IPFreelyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFreelyTests.swift; sourceTree = "<group>"; };
-		B013333C1BAEDFF80038FECB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +57,7 @@
 		B013330E1BADD1290038FECB = {
 			isa = PBXGroup;
 			children = (
-				B013333C1BAEDFF80038FECB /* Default-568h@2x.png */,
+				83D197421BB00D4B0048869C /* Default-568h@2x.png */,
 				B01333191BADD1290038FECB /* IPFreely */,
 				B013332F1BADD1290038FECB /* IPFreelyTests */,
 				B01333181BADD1290038FECB /* Products */,
@@ -190,7 +190,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B01333241BADD1290038FECB /* Images.xcassets in Resources */,
-				B013333D1BAEDFF80038FECB /* Default-568h@2x.png in Resources */,
+				83D197431BB00D4B0048869C /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +390,7 @@
 				B01333381BADD1290038FECB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B01333391BADD1290038FECB /* Build configuration list for PBXNativeTarget "IPFreelyTests" */ = {
 			isa = XCConfigurationList;
@@ -398,6 +399,7 @@
 				B013333B1BADD1290038FECB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
