@@ -92,7 +92,7 @@ class ViewController: UIViewController {
 
         UIApplication.sharedApplication().networkActivityIndicatorVisible = true
 
-        let getIdeasTask = NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: "https://www.reddit.com/r/crazyideas.json")!) {
+        let getIdeasTask = NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: "https://www.reddit.com/r/shittycrazyideas.json")!) {
             (data, response, error) in
 
             if let data = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as? NSDictionary {
