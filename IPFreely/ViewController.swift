@@ -20,6 +20,8 @@ class ViewController: UIViewController {
 
     var nouns = [String]()
 
+    var ideaToOwn = ""
+
 
     let tableView: UITableView
 
@@ -70,7 +72,7 @@ class ViewController: UIViewController {
     }
 
     func buttonPressed() {
-        if myIdeas.isEmpty {
+        if originalIdeas.isEmpty {
             getIdeas()
         }
         else {
@@ -108,9 +110,6 @@ class ViewController: UIViewController {
                         self.processIdea(idea)
                     }
 
-                    for idea in self.originalIdeas {
-                        self.generateIdeas()
-                    }
 
                     NSOperationQueue.mainQueue().addOperationWithBlock() {
                         self.tableView.reloadData()
@@ -118,6 +117,7 @@ class ViewController: UIViewController {
                         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 
                         self.button.setTitle("Generate Ideas", forState: .Normal)
+                        self.button.backgroundColor = UIColor.redColor()
                     }
                 }
             }
@@ -250,42 +250,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         uploadPrompt = UIAlertView(title: "MINE!!!!", message: "Would you like to make this idea your own?", delegate: self, cancelButtonTitle: "NO!", otherButtonTitles: "I wanna watch the world burn.")
         uploadPrompt?.show()
 
-
-        if let userName = userName {
-
-            var dict = [String: String]()
-
-            dict["file_url"] = myIdeas[indexPath.row]
-            dict["title"] = "GREAT IDEA"
-            dict["artist_name"] = userName
-
-            let jsonData = NSJSONSerialization.dataWithJSONObject(dict, options: nil, error: nil)
-
-            let headers = ["Authorization": "Bearer 412ffb4f4374e83f9afb424566b2d2e2de5a9fd7"]
-
-            var request = NSMutableURLRequest(URL: NSURL(string: "https://www.ascribe.io/api/pieces/")!)
-
-            request.HTTPBody = jsonData
-            request.HTTPMethod = "POST"
-
-            let ideaRegistrationTask = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
-
-                NSOperationQueue.mainQueue().addOperationWithBlock() {
-
-                    if let error = error {
-                        UIAlertView(title: "Failed to make idea your own", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "SHIT!").show()
-                    }
-                    else {
-                        UIAlertView(title: "The idea is yours now!!!", message: "This is yours: \(self.myIdeas[indexPath.row])", delegate: nil, cancelButtonTitle: "SHIT!").show()
-                    }
-                }
-            }
-            ideaRegistrationTask.resume()
-        }
-
-        else {
-            askForName()
-        }
+        ideaToOwn = myIdeas[indexPath.row]
     }
 
 
@@ -295,19 +260,75 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         enterNamePrompt.alertViewStyle = .PlainTextInput
         enterNamePrompt.show()
     }
+
+    func ownIdea() {
+
+
+        if let userName = userName {
+
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+
+            var dict = [String: String]()
+
+            var cleanIdea = String(abs(ideaToOwn.hash))
+
+
+
+            cleanIdea = "http://" + cleanIdea + ".com"
+
+            dict["file_url"] = cleanIdea
+            dict["title"] = "GREAT IDEA"
+            dict["artist_name"] = userName
+
+            let jsonData = NSJSONSerialization.dataWithJSONObject(dict, options: nil, error: nil)
+
+            var request = NSMutableURLRequest(URL: NSURL(string: "https://www.ascribe.io/api/pieces/")!)
+
+            request.setValue("Bearer 412ffb4f4374e83f9afb424566b2d2e2de5a9fd7", forHTTPHeaderField: "Authorization")
+
+
+            request.HTTPBody = jsonData
+            request.HTTPMethod = "POST"
+
+            let ideaRegistrationTask = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) in
+
+                NSOperationQueue.mainQueue().addOperationWithBlock() {
+
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+
+                    if let error = error {
+                        UIAlertView(title: "Failed to make idea your own", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "SHIT!").show()
+                    }
+                    else {
+                        UIAlertView(title: "The idea is yours now!!!", message: "This is yours: \(self.ideaToOwn)", delegate: nil, cancelButtonTitle: "SHIT!").show()
+                    }
+                }
+            }
+            ideaRegistrationTask.resume()
+        }
+    }
 }
 
 extension ViewController: UIAlertViewDelegate {
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
 
         if alertView == uploadPrompt {
-
+            if buttonIndex == 0 {
+                return
+            } else {
+                if userName == nil {
+                    askForName()
+                } else {
+                    ownIdea()
+                }
+            }
         }
 
 
         else {
             if let text = alertView.textFieldAtIndex(0)?.text {
                 userName = text
+                ownIdea()
             } else {
                 askForName()
             }

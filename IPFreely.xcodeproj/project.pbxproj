@@ -10,8 +10,8 @@
 		B013331D1BADD1290038FECB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B013331C1BADD1290038FECB /* AppDelegate.swift */; };
 		B013331F1BADD1290038FECB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B013331E1BADD1290038FECB /* ViewController.swift */; };
 		B01333241BADD1290038FECB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B01333231BADD1290038FECB /* Images.xcassets */; };
-		B01333271BADD1290038FECB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B01333251BADD1290038FECB /* LaunchScreen.xib */; };
 		B01333331BADD1290038FECB /* IPFreelyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B01333321BADD1290038FECB /* IPFreelyTests.swift */; };
+		B013333D1BAEDFF80038FECB /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B013333C1BAEDFF80038FECB /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,10 +30,10 @@
 		B013331C1BADD1290038FECB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B013331E1BADD1290038FECB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B01333231BADD1290038FECB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		B01333261BADD1290038FECB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		B013332C1BADD1290038FECB /* IPFreelyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IPFreelyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B01333311BADD1290038FECB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B01333321BADD1290038FECB /* IPFreelyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPFreelyTests.swift; sourceTree = "<group>"; };
+		B013333C1BAEDFF80038FECB /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +57,7 @@
 		B013330E1BADD1290038FECB = {
 			isa = PBXGroup;
 			children = (
+				B013333C1BAEDFF80038FECB /* Default-568h@2x.png */,
 				B01333191BADD1290038FECB /* IPFreely */,
 				B013332F1BADD1290038FECB /* IPFreelyTests */,
 				B01333181BADD1290038FECB /* Products */,
@@ -78,7 +79,6 @@
 				B013331C1BADD1290038FECB /* AppDelegate.swift */,
 				B013331E1BADD1290038FECB /* ViewController.swift */,
 				B01333231BADD1290038FECB /* Images.xcassets */,
-				B01333251BADD1290038FECB /* LaunchScreen.xib */,
 				B013331A1BADD1290038FECB /* Supporting Files */,
 			);
 			path = IPFreely;
@@ -189,8 +189,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B01333271BADD1290038FECB /* LaunchScreen.xib in Resources */,
 				B01333241BADD1290038FECB /* Images.xcassets in Resources */,
+				B013333D1BAEDFF80038FECB /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,17 +230,6 @@
 			targetProxy = B013332D1BADD1290038FECB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		B01333251BADD1290038FECB /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B01333261BADD1290038FECB /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		B01333341BADD1290038FECB /* Debug */ = {
@@ -331,6 +320,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = IPFreely/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -341,6 +331,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = IPFreely/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
