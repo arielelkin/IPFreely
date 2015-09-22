@@ -280,11 +280,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             dict["title"] = "GREAT IDEA"
             dict["artist_name"] = userName
 
-            let jsonData = NSJSONSerialization.dataWithJSONObject(dict, options: nil, error: nil)
+            let jsonData = NSJSONSerialization.dataWithJSONObject(dict, options: .PrettyPrinted, error: nil)
 
             var request = NSMutableURLRequest(URL: NSURL(string: "https://www.ascribe.io/api/pieces/")!)
 
             request.setValue("Bearer 412ffb4f4374e83f9afb424566b2d2e2de5a9fd7", forHTTPHeaderField: "Authorization")
+
+            println("\(NSString(data: jsonData!, encoding: NSUTF8StringEncoding)!)")
 
 
             request.HTTPBody = jsonData
@@ -296,7 +298,11 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
 
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
 
-                    if let error = error {
+                    if let response = response as? NSHTTPURLResponse {
+                        if !(200...299 ~= response.statusCode) {
+                            UIAlertView(title: "Failed to make idea your own", message: "HTTP Error \(response.statusCode)", delegate: nil, cancelButtonTitle: "SHIT!").show()
+                        }
+                    } else if let error = error {
                         UIAlertView(title: "Failed to make idea your own", message: error.localizedDescription, delegate: nil, cancelButtonTitle: "SHIT!").show()
                     }
                     else {
