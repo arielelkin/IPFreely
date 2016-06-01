@@ -49,24 +49,24 @@ class ViewController: UIViewController {
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.backgroundColor = UIColor.whiteColor()
         viewsDict["tableView"] = tableView
-        tableView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
 
 
-        button.addTarget(self, action: "buttonPressed", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(buttonPressed), forControlEvents: .TouchUpInside)
         button.setTitle("Get Inspired", forState: .Normal)
         button.backgroundColor = UIColor.purpleColor()
         viewsDict["button"] = button
-        button.setTranslatesAutoresizingMaskIntoConstraints(false)
+        button.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(button)
 
-        var constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: nil, metrics: nil, views: viewsDict)
+        var constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: [], metrics: nil, views: viewsDict)
         view.addConstraints(constraints)
 
-        constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[button]|", options: nil, metrics: nil, views: viewsDict)
+        constraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[button]|", options: [], metrics: nil, views: viewsDict)
         view.addConstraints(constraints)
 
-        constraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[tableView][button]|", options: nil, metrics: nil, views: viewsDict)
+        constraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[tableView][button]|", options: [], metrics: nil, views: viewsDict)
         view.addConstraints(constraints)
 
     }
@@ -95,7 +95,7 @@ class ViewController: UIViewController {
         let getIdeasTask = NSURLSession.sharedSession().dataTaskWithURL(NSURL(string: "https://www.reddit.com/r/shittycrazyideas.json")!) {
             (data, response, error) in
 
-            if let data = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: nil) as? NSDictionary {
+            if let data = (try? NSJSONSerialization.JSONObjectWithData(data!, options: [])) as? NSDictionary {
 
                 if let array = (data["data"] as? NSDictionary)?["children"] as? NSArray {
 
@@ -132,7 +132,7 @@ class ViewController: UIViewController {
 
         for ideaString in self.originalIdeas {
 
-            let options: NSLinguisticTaggerOptions = NSLinguisticTaggerOptions.OmitWhitespace | NSLinguisticTaggerOptions.OmitPunctuation | NSLinguisticTaggerOptions.JoinNames
+            let options: NSLinguisticTaggerOptions = [NSLinguisticTaggerOptions.OmitWhitespace, NSLinguisticTaggerOptions.OmitPunctuation, NSLinguisticTaggerOptions.JoinNames]
             let schemes = NSLinguisticTagger.availableTagSchemesForLanguage("en")
             let tagger = NSLinguisticTagger(tagSchemes: schemes, options: Int(options.rawValue))
             tagger.string = ideaString as String
@@ -148,21 +148,18 @@ class ViewController: UIViewController {
 
                     newIdea = ideaString
 
-                    if let tag = tag {
+                    switch tag {
 
-                        switch tag {
+                    case NSLinguisticTagVerb:
 
-                        case NSLinguisticTagVerb:
+                        newIdea = newIdea.stringByReplacingOccurrencesOfString(token, withString: self.verbs.randomItem())
 
-                            newIdea = newIdea.stringByReplacingOccurrencesOfString(token, withString: self.verbs.randomItem())
+                    case NSLinguisticTagNoun, NSLinguisticTagPersonalName:
 
-                        case NSLinguisticTagNoun, NSLinguisticTagPersonalName:
-
-                            newIdea = newIdea.stringByReplacingOccurrencesOfString(token, withString: self.nouns.randomItem())
-
-                        default:
-                            break
-                        }
+                        newIdea = newIdea.stringByReplacingOccurrencesOfString(token, withString: self.nouns.randomItem())
+                        
+                    default:
+                        break
                     }
             }
             if newIdea != ideaString {
@@ -174,39 +171,38 @@ class ViewController: UIViewController {
 
     func processIdea(ideaString: String) {
 
-        let options: NSLinguisticTaggerOptions = NSLinguisticTaggerOptions.OmitWhitespace | NSLinguisticTaggerOptions.OmitPunctuation | NSLinguisticTaggerOptions.JoinNames
+        let options: NSLinguisticTaggerOptions = [NSLinguisticTaggerOptions.OmitWhitespace, NSLinguisticTaggerOptions.OmitPunctuation, NSLinguisticTaggerOptions.JoinNames]
         let schemes = NSLinguisticTagger.availableTagSchemesForLanguage("en")
         let tagger = NSLinguisticTagger(tagSchemes: schemes, options: Int(options.rawValue))
         tagger.string = ideaString
 
-        tagger.enumerateTagsInRange(NSMakeRange(0, (ideaString as NSString).length),
+        tagger.enumerateTagsInRange(
+            NSMakeRange(0, (ideaString as NSString).length),
             scheme: NSLinguisticTagSchemeNameTypeOrLexicalClass,
             options: options) {
                 (tag, tokenRange, _, _) in
 
                 let token = (ideaString as NSString).substringWithRange(tokenRange)
 
-                println("\(token): \(tag)")
+                print("\(token): \(tag)")
 
-                if let tag = tag {
 
-                    switch tag {
+                switch tag {
 
-                    case NSLinguisticTagVerb:
-                        self.verbs.append(token)
+                case NSLinguisticTagVerb:
+                    self.verbs.append(token)
 
-                    case NSLinguisticTagNoun, NSLinguisticTagPersonalName:
-                        self.nouns.append(token)
+                case NSLinguisticTagNoun, NSLinguisticTagPersonalName:
+                    self.nouns.append(token)
 
-                    default:
-                        break
-                    }
+                default:
+                    break
                 }
         }
     }
 
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
@@ -215,7 +211,7 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) 
 
         cell.textLabel?.numberOfLines = 0
 
@@ -280,13 +276,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             dict["title"] = "GREAT IDEA"
             dict["artist_name"] = userName
 
-            let jsonData = NSJSONSerialization.dataWithJSONObject(dict, options: .PrettyPrinted, error: nil)
+            let jsonData = try? NSJSONSerialization.dataWithJSONObject(dict, options: .PrettyPrinted)
 
-            var request = NSMutableURLRequest(URL: NSURL(string: "https://www.ascribe.io/api/pieces/")!)
+            let request = NSMutableURLRequest(URL: NSURL(string: "https://www.ascribe.io/api/pieces/")!)
 
             request.setValue("Bearer 412ffb4f4374e83f9afb424566b2d2e2de5a9fd7", forHTTPHeaderField: "Authorization")
 
-            println("\(NSString(data: jsonData!, encoding: NSUTF8StringEncoding)!)")
+            print("\(NSString(data: jsonData!, encoding: NSUTF8StringEncoding)!)")
 
 
             request.HTTPBody = jsonData
@@ -343,7 +339,7 @@ extension ViewController: UIAlertViewDelegate {
 }
 
 extension Array {
-    func randomItem() -> T {
+    func randomItem() -> Element {
         let index = Int(arc4random_uniform(UInt32(self.count)))
         return self[index]
     }
